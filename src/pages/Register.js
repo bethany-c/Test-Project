@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState, Component } from 'react';
 import axios from 'axios';
 
 
@@ -10,32 +10,26 @@ import App from '../App'
 import Teachers from '../pages/Teachers'
 
 const Register = () => {
-  const [setState, state] = useState({
+  const [state,setState] = useState({
     firstName: "",
     lastName: "",
     schoolCode: "",
   });
 
 
-  /*const handleChange = (e) => {
-    this.setState({firstName: e.target.value})
-    this.setState({lastName: e.target.value})
-    this.setState({schoolCode: e.target.value})
-  }*/
+  const handleChange = (e) => {
+    setState({...state, [e.target.name]: e.target.value})
+  }
 
-  const handleSumbit = (e) => {
-    /*this.setState((state) => {
-      return {firstname: state.firstName, lastName: state.lastName, schoolCode: state.schoolCode}
-    }
-    )*/
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const registerTeacher = (firstName, lastName, schoolCode) => {
+    
       axios.post(
         'http://squigglepark-fullstack-project.us-east-1.elasticbeanstalk.com/api/teachers',
         {
-          firstName,
-          lastName,
-          schoolCode
+          firstName: state.firstName,
+          lastName: state.lastname,
+          schoolCode: state.schoolCode
         },
         {
           headers: {
@@ -44,19 +38,17 @@ const Register = () => {
         }
       )
       .then(response => {console.log(response.firstName);Teachers.setMonsters(response.firstName);})
-    }
-    
   }
 
   return(
 
-      <form>
+      <form method={"post"} onSubmit={handleSubmit}>
         <div>
         <label>First Name</label>
         <input type = 'text' 
               placeholder = 'Enter first name' 
               value={state.firstName}
-              //onChange={handleChange}
+              onChange={handleChange}
         />
         </div>
         <div>
@@ -64,7 +56,7 @@ const Register = () => {
         <input type = 'text' 
               placeholder = 'Enter last name' 
               value={state.lastName}
-              //onChange={handleChange}
+              onChange={handleChange}
         />
         </div>
         <div>
@@ -72,26 +64,16 @@ const Register = () => {
         <input type = 'text' 
               placeholder = 'Enter school code' 
               value={state.schoolCode}
-              //onChange={handleChange}
+              onChange={handleChange}
         />
         </div>
         <button type='submit' onClick={ () =>
-          this.handleSubmit(state.firstName, state.lastName, state.schoolCode)}
+          handleSubmit(state.firstName, state.lastName, state.schoolCode)}
           >
             Register</button>
         <div>
         </div>
       </form>
-      
-
-      
-
   )
-
   }
-
-
-
-
-
 export default Register;
