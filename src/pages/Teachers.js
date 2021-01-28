@@ -25,12 +25,11 @@ const Teachers = () => {
       }
       )
     .then(response => {console.log(response.data);setMonsters(response.data);}) //hold json
+    .catch(error => console.log(error))
   }
     const onSearchChange = e => {
     setSearchField(e.target.value); //page rerenders
     }
-
-
     
     const handleSubmit = (e) => {
       e.preventDefault();
@@ -50,11 +49,9 @@ const Teachers = () => {
         };
       })
       )
+      .catch(error => console.log(error))
     }
   
-    
-  
-
   useEffect(() => { //runs once before render
     fetchTeachers();
   }, []);
