@@ -7,5 +7,4 @@ export const DeleteBox = ({ onDeleteChange }) => (
     placeholder='delete teacher ID'
     onChange={onDeleteChange}
     />
-    
 );
