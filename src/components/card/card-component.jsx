@@ -7,6 +7,7 @@ export const Card = ({ monster }) => (
     
     <h2> {monster.firstName} </h2>
     <p> {monster.lastName} </p>
+    <p> {monster.id}</p>
     <p> {monster.school.name}</p>
     </div>
 );
