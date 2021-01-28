@@ -30,15 +30,12 @@ const Teachers = () => {
     setSearchField(e.target.value); //page rerenders
     }
 
-    const onDeleteChange = e => {
-      setDeleteField(e.target.value);
-    }
 
     
-
-  const deleteTeacher = (teacherId) => {
-    axios.delete(
-      'http://squigglepark-fullstack-project.us-east-1.elasticbeanstalk.com/api/teachers/' + teacherId,
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      axios.delete(
+      'http://squigglepark-fullstack-project.us-east-1.elasticbeanstalk.com/api/teachers/' + deleteField.id,
       {
         headers: {
           'Authorization': `tf8P1869GRk2LVNej6YftLl95XNeWbFF`
@@ -46,28 +43,17 @@ const Teachers = () => {
       }
     )
     .then(response => 
-      this.setState(previousState => {
+      setDeleteField(previousState => {
         return {
           monsters: previousState.monsters.filter(monster =>
-            monster.id !== teacherId)
+            monster.id !== deleteField.id)
         };
       })
       )
-  }
-
-
-  useEffect(() => {
-    if(searchField === '') {
-      setShownMonsters(monsters);
     }
-    else{
-      deleteTeacher(Number(deleteField));
-      //setShownMonsters(monsters);
-      setShownMonsters(monsters.filter(monster =>
-        monster.id !== Number(searchField)))
-    }
+  
     
-  }, [deleteField, monsters])
+  
 
   useEffect(() => { //runs once before render
     fetchTeachers();
@@ -84,21 +70,32 @@ const Teachers = () => {
     
   }, [searchField, monsters])
 
+  const handleChange = (e) => {
+    setDeleteField({...deleteField, [e.target.name]: e.target.value})
+  }
 
+  
   return (
     
     <div className='App'>
       <h1>List of Teachers</h1>
       <SearchBox onSearchChange={onSearchChange} /> 
       <CardList monsters={shownMonsters} />
-      <DeleteBox onDeleteChange={onDeleteChange}/>
-      
+      <form method={"delete"}>
+        
+        <input type = 'text' 
+              placeholder = 'Delete teacher ID' 
+              value={monsters.id}
+              onChange={handleChange}
+        />
+        <button type='submit' onClick={ () =>
+          handleSubmit(deleteField.id)}
+          >
+            Delete</button>
+      </form>
+      {fetchTeachers()}
     </div>
+
   );
 }
 export default Teachers; 
-
-
-//PROBLEMS
-
-// how to join register page with main page and update
