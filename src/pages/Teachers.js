@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-
 import { CardList } from '../components/card-list/card-list-component';
 import { SearchBox } from '../components/search-box/search-box-component';
-import { DeleteBox } from '../components/search-box/delete-box-component';
-import { DeleteConfirm } from '../components/search-box/confirm-delete';
-
 
 
 const Teachers = () => {
@@ -30,28 +26,21 @@ const Teachers = () => {
     const onSearchChange = e => {
     setSearchField(e.target.value); //page rerenders
     }
-    
+
     const handleSubmit = (e) => {
       e.preventDefault();
       axios.delete(
-      'http://squigglepark-fullstack-project.us-east-1.elasticbeanstalk.com/api/teachers/' + deleteField.id,
+      'http://squigglepark-fullstack-project.us-east-1.elasticbeanstalk.com/api/teachers/' + deleteField,
       {
         headers: {
           'Authorization': `tf8P1869GRk2LVNej6YftLl95XNeWbFF`
         }
       }
     )
-    .then(response => 
-      setDeleteField(previousState => {
-        return {
-          monsters: previousState.monsters.filter(monster =>
-            monster.id !== deleteField.id)
-        };
-      })
-      )
       .catch(error => console.log(error))
+      fetchTeachers();
     }
-  
+    
   useEffect(() => { //runs once before render
     fetchTeachers();
   }, []);
@@ -68,29 +57,27 @@ const Teachers = () => {
   }, [searchField, monsters])
 
   const handleChange = (e) => {
-    setDeleteField({...deleteField, [e.target.name]: e.target.value})
+    setDeleteField(e.target.value)
   }
 
-  
   return (
     
     <div className='App'>
       <h1>List of Teachers</h1>
       <SearchBox onSearchChange={onSearchChange} /> 
       <CardList monsters={shownMonsters} />
-      <form method={"delete"}>
-        
-        <input type = 'text' 
+      
+      <form method={"delete"} onSubmit={handleSubmit}>
+        <input
+              type = 'text' 
               placeholder = 'Delete teacher ID' 
-              value={monsters.id}
+              name={"deleteField"}
+              value={deleteField}
               onChange={handleChange}
         />
-        <button type='submit' onClick={ () =>
-          handleSubmit(deleteField.id)}
-          >
+        <button type='submit'>
             Delete</button>
       </form>
-      {fetchTeachers()}
     </div>
 
   );
