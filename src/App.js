@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 
 import './App.css';
 import Teachers from './pages/Teachers';
 import Register from './pages/Register';
 import Schools from './pages/Schools';
-import { Link } from 'react-router-dom';
-
-
-
 
 const App = () => {
   const [page, setPage] = useState('teachers'); //hold data from API
-  
+
   return (
     <div className='App'>
       <button
@@ -30,7 +25,7 @@ const App = () => {
       >
         Schools
       </button>
-      {page == 'teachers' ? <Teachers/> : page == 'register' ? <Register/> : <Schools/>}
+      {page === 'teachers' ? <Teachers/> : page === 'register' ? <Register/> : <Schools/>}
     </div>
   );
 }
