@@ -1,13 +1,6 @@
-import React, { useState, Component } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-
-
-
-import { CardList } from '../components/card-list/card-list-component';
-//import { SearchBox } from '../components/search-box/search-box-component';
-
-import App from '../App'
-import Teachers from '../pages/Teachers'
+import './register-style.css'
 
 const Register = () => {
   const [state,setState] = useState({
@@ -15,7 +8,6 @@ const Register = () => {
     lastName: "",
     schoolCode: "",
   });
-
 
   const handleChange = (e) => {
     setState({...state, [e.target.name]: e.target.value})
@@ -28,7 +20,7 @@ const Register = () => {
         'http://squigglepark-fullstack-project.us-east-1.elasticbeanstalk.com/api/teachers',
         {
           firstName: state.firstName,
-          lastName: state.lastname,
+          lastName: state.lastName,
           schoolCode: state.schoolCode
         },
         {
@@ -37,16 +29,21 @@ const Register = () => {
           }
         }
       )
-      .then(response => {console.log(response.firstName);Teachers.setMonsters(response.firstName);})
-  }
+      .then(response => {console.log(response.state.firstName);})
+        .catch(error => console.log(error))
+    }
+
+  const onButtonClickHandler = () => {
+    window.alert("You have successfully registered. Go to the Teachers page to view.")
+  } 
 
   return(
-
-      <form method={"post"} onSubmit={handleSubmit}>
+      <form method={"post"} onSubmit={handleSubmit} className='registerStyle'>
         <div>
         <label>First Name</label>
         <input type = 'text' 
               placeholder = 'Enter first name' 
+              name={"firstName"}
               value={state.firstName}
               onChange={handleChange}
         />
@@ -55,6 +52,7 @@ const Register = () => {
         <label>Last Name</label>
         <input type = 'text' 
               placeholder = 'Enter last name' 
+              name={"lastName"}
               value={state.lastName}
               onChange={handleChange}
         />
@@ -63,17 +61,16 @@ const Register = () => {
         <label>School Code</label>
         <input type = 'text' 
               placeholder = 'Enter school code' 
+              name={"schoolCode"}
               value={state.schoolCode}
               onChange={handleChange}
         />
         </div>
-        <button type='submit' onClick={ () =>
-          handleSubmit(state.firstName, state.lastName, state.schoolCode)}
-          >
-            Register</button>
+        <br></br>
+        <button type='submit' onClick={onButtonClickHandler}>Register</button>
         <div>
         </div>
       </form>
   )
-  }
+}
 export default Register;
