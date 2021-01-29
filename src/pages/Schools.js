@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
-
 import { SchoolCardList } from '../components/card-list/card-list-school';
-
-
-
 
 const Schools = () => {
     const [schools,setSchools] = useState([]); //hold data from API
@@ -20,7 +15,6 @@ const Schools = () => {
   useEffect(() => { //runs once before render
     fetchSchools();
   }, []);
-
 
   return (
     <div className='App'>
