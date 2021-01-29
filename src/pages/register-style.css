@@ -16,3 +16,15 @@
     letter-spacing: 0.05rem;
     padding-left: 0.25rem;
 }
+
+.registerStyle{
+    padding: 50px;
+}
+
+label{
+    padding:15px;
+}
+
+input{
+    margin-left: auto;
+}
